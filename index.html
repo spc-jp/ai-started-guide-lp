@@ -3,1139 +3,430 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AIスタートガイド - 中小企業向け導入診断</title>
+    <title>AIスタートガイド - 考えるを、ひとりにしない。</title>
+    <!-- Google Fonts: 読みやすいNoto Sans JP -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS (スタイリング効率化のためCDNを使用) -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        /* カスタム設定 */
         :root {
-            --primary: #2563EB; /* Trustworthy Blue */
-            --primary-hover: #1D4ED8;
-            --bg-color: #F3F4F6;
-            --card-bg: #FFFFFF;
-            --text-main: #1F2937;
-            --text-sub: #6B7280;
-            --border: #E5E7EB;
-            --accent: #F59E0B; /* Amber for highlight */
-            --pro-color: #4F46E5; /* Indigo for Pro */
-            --pro-bg: #EEF2FF;
-            --radius: 12px;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        }
-
-        /* Pro Mode Variables */
-        body.pro-mode {
-            --primary: #4F46E5; /* Indigo */
-            --primary-hover: #4338CA;
-            --bg-color: #F8FAFC;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+            --miyako-blue-start: #E0F7FA; /* 淡い水色 */
+            --miyako-blue-end: #B2EBF2;   /* 少し濃い水色 */
+            --accent-color: #00838F;      /* 深い青緑（文字やボタン用） */
+            --glass-bg: rgba(255, 255, 255, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.5);
+            --text-main: #455A64;         /* 柔らかい黒 */
+            --text-light: #78909C;        /* 薄いグレー */
         }
 
         body {
-            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
-            background-color: var(--bg-color);
+            font-family: 'Noto Sans JP', sans-serif;
             color: var(--text-main);
-            line-height: 1.6;
-            transition: background-color 0.3s;
-        }
-
-        /* Layout */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            display: grid;
-            grid-template-rows: auto 1fr;
-            gap: 20px;
-        }
-
-        header {
-            background: var(--card-bg);
-            padding: 20px 30px;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            border-bottom: 4px solid transparent;
-            transition: all 0.3s;
-        }
-
-        body.pro-mode header {
-            border-bottom-color: var(--accent);
-        }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            cursor: pointer;
-        }
-
-        .header-title h1 {
-            font-size: 1.5rem;
-            color: var(--primary);
-            font-weight: bold;
-        }
-
-        .pro-badge {
-            background: var(--accent);
-            color: white;
-            font-size: 0.75rem;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-weight: bold;
-            display: none;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        body.pro-mode .pro-badge {
-            display: inline-block;
-        }
-
-        .header-title p {
-            font-size: 0.9rem;
-            color: var(--text-sub);
-            margin-top: 4px;
-        }
-
-        .reset-btn {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--text-sub);
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.2s;
-        }
-
-        .reset-btn:hover {
-            background: #f9fafb;
-            border-color: #d1d5db;
-            color: var(--text-main);
-        }
-
-        /* Main Grid */
-        main {
-            display: grid;
-            grid-template-columns: 320px 1fr;
-            gap: 24px;
-            align-items: start;
-        }
-
-        /* Left Column (Input) */
-        .input-zone {
-            background: var(--card-bg);
-            padding: 24px;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            position: sticky;
-            top: 20px;
-        }
-
-        .form-section {
-            margin-bottom: 24px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .form-section:last-of-type {
-            border-bottom: none;
-            margin-bottom: 10px;
-        }
-
-        .form-label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 12px;
-            font-size: 1rem;
-            color: var(--text-main);
-        }
-
-        .radio-group, .checkbox-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .input-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            font-size: 0.95rem;
-        }
-
-        .input-item input {
-            accent-color: var(--primary);
-            width: 18px;
-            height: 18px;
-        }
-
-        .action-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: 20px;
-        }
-
-        .btn {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: transform 0.1s, opacity 0.2s, background-color 0.3s;
-        }
-
-        .btn:active {
-            transform: scale(0.98);
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-hover);
-        }
-
-        .btn-secondary {
-            background: white;
-            border: 1px solid var(--primary);
-            color: var(--primary);
-        }
-
-        .btn-secondary:hover {
-            background: #eff6ff;
-        }
-
-        .btn-pro {
-            background: linear-gradient(135deg, #4F46E5, #7C3AED);
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.95rem;
-            border: 1px solid transparent;
-        }
-        
-        .btn-pro:hover {
-            opacity: 0.9;
-        }
-
-        body.pro-mode .btn-pro {
-            background: white;
-            border: 2px solid var(--accent);
-            color: var(--accent);
-        }
-
-        /* Right Column (Results) */
-        .result-zone {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
-
-        .result-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .print-btn {
-            background: #fff;
-            border: 1px solid var(--border);
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            display: none; /* Hidden by default */
-            align-items: center;
-            gap: 6px;
-            font-size: 0.9rem;
-            color: var(--text-main);
-        }
-
-        body.pro-mode .print-btn {
-            display: flex;
-        }
-
-        .placeholder-message {
-            text-align: center;
-            padding: 60px;
-            color: var(--text-sub);
-            background: rgba(255,255,255,0.5);
-            border-radius: var(--radius);
-            border: 2px dashed var(--border);
-        }
-
-        /* Cards */
-        .card {
-            background: var(--card-bg);
-            border-radius: var(--radius);
-            padding: 24px;
-            box-shadow: var(--shadow);
-            border-left: 5px solid var(--primary);
-            page-break-inside: avoid;
-        }
-
-        .card.warning {
-            border-left-color: var(--accent);
-            background: #FFFBEB;
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-
-        .card-title {
-            font-size: 1.25rem;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .tag {
-            font-size: 0.75rem;
-            background: #DBEAFE;
-            color: #1E40AF;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-weight: normal;
-        }
-        
-        body.pro-mode .tag {
-            background: #EEF2FF;
-            color: #4338CA;
-            border: 1px solid #C7D2FE;
-        }
-
-        .card-body h3 {
-            font-size: 1rem;
-            margin-bottom: 8px;
-            color: var(--text-sub);
-            border-bottom: 1px solid #e5e7eb;
-            padding-bottom: 4px;
-            margin-top: 15px;
-        }
-        
-        .card-body h3:first-of-type {
-            margin-top: 0;
-        }
-
-        .step-list, .scene-list {
-            list-style: none;
-            margin-bottom: 20px;
-        }
-
-        .step-list li, .scene-list li {
-            margin-bottom: 8px;
-            padding-left: 20px;
+            /* 宮古ブルー系のミニマルグラデーション */
+            background: linear-gradient(135deg, #F0FDFA 0%, #E0F7FA 50%, #E1F5FE 100%);
+            min-height: 100vh;
+            line-height: 1.8; /* 行間を広めに */
+            font-weight: 400; /* 基本太字なし */
+            overflow-x: hidden;
             position: relative;
         }
 
-        .step-list li::before, .scene-list li::before {
-            content: "•";
-            color: var(--primary);
-            position: absolute;
-            left: 0;
-            font-weight: bold;
-        }
-
-        .prompt-box {
-            background: #F8FAFC;
-            border: 1px solid #E2E8F0;
-            border-radius: 6px;
-            padding: 12px;
-            margin-bottom: 12px;
-        }
-
-        .prompt-label {
-            font-size: 0.8rem;
-            font-weight: bold;
-            color: var(--text-sub);
-            margin-bottom: 4px;
-            display: block;
-        }
-
-        .prompt-text {
-            width: 100%;
-            min-height: 80px;
-            border: none;
-            background: transparent;
-            font-family: monospace;
-            font-size: 0.9rem;
-            color: var(--text-main);
-            resize: vertical;
-            outline: none;
-            line-height: 1.5;
-        }
-
-        .copy-card-btn {
-            float: right;
-            background: white;
-            border: 1px solid var(--border);
-            font-size: 0.8rem;
-            padding: 4px 10px;
-            border-radius: 4px;
-            cursor: pointer;
-            color: var(--text-sub);
-        }
-        .copy-card-btn:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        /* Route Flow */
-        .route-flow {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            align-items: center;
-            font-weight: bold;
-            color: var(--text-main);
-        }
-        .route-step {
-            background: #EFF6FF;
-            color: var(--primary);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.95rem;
-        }
-        .route-arrow {
-            color: var(--text-sub);
-        }
-
-        /* Footer / Homework */
-        .homework-section {
-            margin-top: 20px;
-            display: grid;
-            gap: 15px;
-        }
-        
-        .homework-input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            font-family: inherit;
-        }
-
-        /* Toast Notification */
-        .toast {
-            visibility: hidden;
-            min-width: 250px;
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            border-radius: 8px;
-            padding: 12px 20px;
+        /* 薄い設計線（グリッド背景） */
+        .bg-grid {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(0, 131, 143, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 131, 143, 0.03) 1px, transparent 1px);
             position: fixed;
-            z-index: 1000;
-            left: 50%;
-            bottom: 30px;
-            transform: translateX(-50%);
-            font-size: 0.95rem;
-            opacity: 0;
-            transition: opacity 0.3s, bottom 0.3s;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
         }
 
-        .toast.show {
-            visibility: visible;
-            opacity: 1;
-            bottom: 50px;
+        /* ガラス調カード（Glassmorphism） */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px; /* 大きめの角丸 */
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
         }
 
-        /* Print Styles */
-        @media print {
-            body { background: white; -webkit-print-color-adjust: exact; }
-            .container { display: block; max-width: 100%; padding: 0; }
-            .input-zone, .action-buttons, .reset-btn, .print-btn, .copy-card-btn { display: none !important; }
-            header { box-shadow: none; border: none; padding: 10px 0; border-bottom: 2px solid #ddd; margin-bottom: 20px; }
-            .result-zone { display: block; }
-            .card { border: 1px solid #ddd; box-shadow: none; break-inside: avoid; margin-bottom: 20px; }
-            .prompt-box { background: #f9f9f9; border: 1px solid #eee; }
-            .prompt-text { height: auto; resize: none; overflow: visible; }
+        /* 見出しスタイル（太字にせずサイズで調整） */
+        h1, h2, h3 {
+            font-weight: 400; /* 太字禁止 */
+            color: var(--accent-color);
+            letter-spacing: 0.05em;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            main {
-                grid-template-columns: 1fr;
-            }
-            .input-zone {
-                position: static;
-            }
-            header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .reset-btn {
-                width: 100%;
-                text-align: center;
-            }
+        /* ボタンデザイン */
+        .btn-cta {
+            background: linear-gradient(120deg, #26C6DA 0%, #00ACC1 100%);
+            color: white;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 172, 193, 0.3);
+            text-decoration: none; /* リンクの下線を消す */
         }
-        
-        /* Utility */
-        .hidden { display: none !important; }
-        .fade-in { animation: fadeIn 0.5s ease-in; }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .btn-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 172, 193, 0.4);
+            opacity: 0.95;
+        }
+
+        /* プレースホルダー画像枠 */
+        .img-placeholder {
+            background-color: rgba(255,255,255,0.5);
+            border: 2px dashed #B0BEC5;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #90A4AE;
+            font-size: 0.9rem;
+        }
+
+        /* スムーズスクロール */
+        html {
+            scroll-behavior: smooth;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <header>
-        <div class="header-left" onclick="resetApp()">
-            <div class="header-title">
-                <h1>AIスタートガイド <span class="pro-badge">PRO</span></h1>
-                <p>何から始めるかを、5分で決める</p>
-            </div>
-        </div>
-        <button class="reset-btn" onclick="resetApp()">リセット</button>
+    <!-- 背景グリッド -->
+    <div class="bg-grid"></div>
+
+    <!-- ヘッダー -->
+    <header class="w-full py-6 px-4 md:px-8 max-w-5xl mx-auto flex justify-between items-center">
+        <div class="text-xl text-teal-700 tracking-wider">AIスタートガイド</div>
+        <!-- 簡易ナビ -->
+        <!-- <nav class="text-sm text-slate-500 hidden md:block">まずは役割を知ることから</nav> -->
     </header>
 
-    <main>
-        <!-- LEFT COLUMN -->
-        <div class="input-zone">
-            <!-- 1. Level -->
-            <div class="form-section">
-                <label class="form-label">1. 現在のレベル</label>
-                <div class="radio-group">
-                    <label class="input-item"><input type="radio" name="level" value="beginner" checked> AIは初めて</label>
-                    <label class="input-item"><input type="radio" name="level" value="tried"> 触ったことはある</label>
-                    <label class="input-item"><input type="radio" name="level" value="chatgpt_only"> ChatGPTだけ使っている</label>
-                </div>
-            </div>
+    <!-- メインコンテンツ -->
+    <main class="w-full max-w-4xl mx-auto px-4 md:px-6 pb-20">
 
-            <!-- 2. Purpose -->
-            <div class="form-section">
-                <label class="form-label">2. 目的（複数可）</label>
-                <div class="checkbox-group">
-                    <label class="input-item"><input type="checkbox" name="purpose" value="marketing"> 集客したい</label>
-                    <label class="input-item"><input type="checkbox" name="purpose" value="sns"> SNS運用・投稿を効率化したい</label>
-                    <label class="input-item"><input type="checkbox" name="purpose" value="internal_doc"> 社内資料を作りたい</label>
-                    <label class="input-item"><input type="checkbox" name="purpose" value="meeting"> 会議・議事録をラクにしたい</label>
-                    <label class="input-item"><input type="checkbox" name="purpose" value="ideation"> アイデア出ししたい</label>
-                    <label class="input-item"><input type="checkbox" name="purpose" value="manual"> マニュアル・手順書を作りたい</label>
-                </div>
-            </div>
-
-            <!-- 3. Environment -->
-            <div class="form-section">
-                <label class="form-label">3. 環境</label>
-                <div class="checkbox-group">
-                    <label class="input-item"><input type="checkbox" id="env_google"> Googleアカウントがある</label>
-                    <label class="input-item"><input type="radio" name="device" value="pc" checked> PC中心</label>
-                    <label class="input-item"><input type="radio" name="device" value="mobile"> スマホ中心</label>
-                </div>
-            </div>
-
-            <!-- 4. Buttons -->
-            <div class="action-buttons">
-                <button class="btn btn-primary" onclick="diagnose()">診断して提案を見る</button>
-                <button class="btn btn-secondary" onclick="copyAllResults()">結果をまとめてコピー</button>
-                <button class="btn btn-pro" id="proToggleBtn" onclick="toggleProMode()">
-                    <span>✨</span> Pro版を試す（無料デモ）
-                </button>
-            </div>
-        </div>
-
-        <!-- RIGHT COLUMN -->
-        <div class="result-zone" id="resultZone">
-            <div class="placeholder-message">
-                左側の項目を入力して<br>「診断して提案を見る」を押してください。
-            </div>
-        </div>
-    </main>
-</div>
-
-<!-- Toast Element -->
-<div id="toast" class="toast">メッセージ</div>
-
-<script>
-    // --- Data Definition ---
-    
-    let isProMode = false;
-
-    // Tools Base Info
-    const toolsInfo = {
-        gpt: { name: "ChatGPT", role: "秘書・ライター役" },
-        gemini: { name: "Gemini", role: "リサーチ・市場調査" },
-        notebooklm: { name: "NotebookLM", role: "図書館・知識ベース" },
-        nanobanana: { name: "Nanobanana", role: "資料作成・チラシ" }
-    };
-
-    // --- Standard Scenarios (Simplified) ---
-    const scenarios = {
-        sns: {
-            gpt: {
-                scenes: ["SNS投稿文（キャプション）の作成", "炎上リスクのチェック", "ハッシュタグのアイデア出し"],
-                prompts: [
-                    "この写真をInstagramに投稿します。ターゲットは[20代女性]。親しみやすく、かつ商品の魅力が伝わる文章を3案作成して。",
-                    "以下の投稿文について、誰かを傷つける表現やリスクがないかチェックし、あれば修正案を出して。",
-                    "[キーワード]に関連する、Instagramで人気が出そうなハッシュタグを20個リストアップして。"
-                ]
-            },
-            gemini: {
-                scenes: ["SNSの流行り（トレンド）調査", "ライバル企業の投稿分析", "人気投稿者のリサーチ"],
-                prompts: [
-                    "現在[業界]で話題になっているSNSの流行り言葉と、その背景を教えて。",
-                    "競合アカウント[URL]の最近の投稿を見て、特に「いいね」が多い投稿の特徴を3つ教えて。",
-                    "[商品]を紹介するのに適した、フォロワー数千〜数万人のインフルエンサーの特徴を提案して。"
-                ]
-            },
-            notebooklm: {
-                scenes: ["過去の投稿データの分析", "自社ブランドのルール学習", "よくある質問の回答集作成"],
-                prompts: [
-                    "アップロードした過去の投稿データから、反応が良かった投稿の共通点を分析して。",
-                    "このブランドルールに基づき、新しい投稿案がお店の雰囲気に合っているか評価して。",
-                    "SNSに来るよくある質問をもとに、自動返信用の回答テンプレートを作成して。"
-                ]
-            },
-            nanobanana: {
-                scenes: ["インスタ用画像のデザイン", "ストーリーズ用背景作成", "わかりやすい図解の作成"],
-                prompts: [
-                    "Instagramで目を引く、[商品]を配置したおしゃれなカフェ風の画像を作成して。",
-                    "スマホ全画面（ストーリーズ）の背景に使える、シンプルで高級感のある柄の画像を生成して。",
-                    "「5つのメリット」を解説するスライド投稿用の、わかりやすい図解の下書きを作って。"
-                ]
-            }
-        },
-        marketing: {
-            gpt: {
-                scenes: ["キャッチコピーの作成", "メルマガの文章作成", "お客様の悩み分析"],
-                prompts: [
-                    "ターゲット層は[30代主婦]です。[商品名]の魅力を伝えるキャッチコピーを10個考えてください。",
-                    "今月のキャンペーン告知のInstagramの投稿文案を、親しみやすい言葉で作ってください。",
-                    "この商品のターゲットとなるお客様が抱えている、隠れた悩みを5つ挙げてください。"
-                ]
-            },
-            gemini: {
-                scenes: ["ライバル企業のリサーチ", "最新の流行調査", "地域情報の収集"],
-                prompts: [
-                    "[業界名]における最新の流行と、成功している企業の事例を3つ教えて。",
-                    "[地域名]で[業種]を探している人が重視するポイントを表形式でまとめて。",
-                    "以下のWebサイト[URL]のライバルとなるサービスを探して、特徴を比較して。"
-                ]
-            },
-            notebooklm: {
-                scenes: ["マーケティング本の要約", "お客様アンケートの分析", "過去の広告データの蓄積"],
-                prompts: [
-                    "アップロードしたお客様アンケートから、最も多い要望を抜き出して。",
-                    "この資料の要点を3行で短くまとめて。",
-                    "過去のキャンペーン結果にもとづいて、次回の改善案を提案して。"
-                ]
-            },
-            nanobanana: {
-                scenes: ["チラシのデザイン案作成", "SNS用画像の生成", "販促資料の下書き作成"],
-                prompts: [
-                    "春のキャンペーン用チラシのデザイン構成案を作成して。",
-                    "Instagramで目を引く[商品画像]の構図アイデアを5つ出して。",
-                    "集客用の商品紹介ページ（LP）の画面構成案を作って。"
-                ]
-            }
-        },
-        meeting: {
-            gpt: {
-                scenes: ["議事録の要約・整形", "会議の目次（アジェンダ）作成", "決定事項のタスク化"],
-                prompts: [
-                    "以下の乱雑なメモを、決定事項と「誰が何をするか」がわかる議事録に書き直して。\n[メモを貼り付け]",
-                    "来週のプロジェクト定例会議の目次案を作成して。時間は1時間。",
-                    "この議事録から、誰がいつまでに何をすべきか（タスク）を抜き出して。"
-                ]
-            },
-            gemini: {
-                scenes: ["会議中の不明語句検索", "業界ニュースの共有", "関連情報のリアルタイム検索"],
-                prompts: [
-                    "今の会議で出た[専門用語]について、中学生でもわかるように解説して。",
-                    "[トピック]に関する直近1週間のニュースを要約して。",
-                    "このテーマで議論する際に気をつけるべきリスクを検索して。"
-                ]
-            },
-            notebooklm: {
-                scenes: ["過去の全議事録の検索", "プロジェクト経緯の確認", "担当者ごとの発言抽出"],
-                prompts: [
-                    "過去の議事録の中から、[プロジェクト名]に関する決定事項を日付順で並べて。",
-                    "前回の会議で[担当者名]さんが提案していた内容は具体的にどういうものだった？",
-                    "このプロジェクトの課題点として挙がっているものを全てリストアップして。"
-                ]
-            },
-            nanobanana: {
-                scenes: ["会議資料の図解化", "スライド構成案", "ホワイトボードの清書"],
-                prompts: [
-                    "今の議論の流れをフローチャート（流れ図）にするための構成を考えて。",
-                    "次回の会議で使うスライドの目次構成（全10枚）を提案して。",
-                    "議論の結果を1枚の図で説明するための下書きを作って。"
-                ]
-            }
-        },
-        default: {
-            gpt: {
-                scenes: ["メールの返信作成", "文章の校正・添削", "日報の作成"],
-                prompts: [
-                    "取引先への謝罪メールを、誠実さが伝わるように作成して。",
-                    "以下の文章を、よりビジネスらしく、短くわかりやすい表現に修正して。",
-                    "今日の業務内容（箇条書き）から、日報の文章を作成して。"
-                ]
-            },
-            gemini: {
-                scenes: ["情報の真偽確認", "一般的な調べ物", "Google Workspace連携"],
-                prompts: [
-                    "[用語]とはどういう意味ですか？具体例を交えて教えて。",
-                    "Googleスプレッドシートの関数で、[やりたいこと]を実現する式を教えて。",
-                    "Gmailの下書きにある[件名]のメールを要約して（Workspace連携時）。"
-                ]
-            },
-            notebooklm: {
-                scenes: ["社内マニュアルの学習", "大量のPDFの要約", "Q&Aボットとして利用"],
-                prompts: [
-                    "アップロードした就業規則に基づき、有給休暇の申請手順を教えて。",
-                    "このPDF資料の要点を5つの箇条書きにして。",
-                    "この資料によると、緊急時の連絡先はどこ？"
-                ]
-            },
-            nanobanana: {
-                scenes: ["プレゼン資料作成", "画像生成", "視覚的な説明資料"],
-                prompts: [
-                    "プレゼン資料の表紙デザインのアイデアを3つ出して。",
-                    "説明用のアイコン画像のイメージを言葉で表現して。",
-                    "初心者向けの操作マニュアルの構成案を作って。"
-                ]
-            }
-        }
-    };
-
-    // --- PRO Scenarios (Advanced & Detailed) ---
-    // 初心者にもわかるように専門用語を平易な言葉に言い換え・補足
-    const proScenarios = {
-        sns: {
-            gpt: {
-                scenes: [
-                    "視聴維持率を高めるリール動画の台本作成",
-                    "「みんな使ってる」と思わせる投稿文作成",
-                    "批判コメントへの返信シミュレーション",
-                    "1ヶ月分の投稿カレンダー自動作成",
-                    "お客様参加型キャンペーンの企画"
-                ],
-                prompts: [
-                    "役割：SNS集客のプロ\n目的：動画を最後まで見てもらう\nターゲット：[ターゲット層]\nテーマ：[動画のテーマ]\n\n冒頭2秒で引きつける言葉と、具体的な構成台本（秒数指定付き）を3案作成してください。",
-                    "役割：文章のプロ\n\n以下の投稿内容について、読み手に「今すぐやりたい」と思わせる言葉（CTA）を、心理的ハードルを下げる工夫をして5パターン提案してください。\n\n[投稿内容]"
-                ]
-            },
-            gemini: {
-                scenes: [
-                    "特定ハッシュタグの人気分析",
-                    "ライバルの強み・弱み分析（SWOT）",
-                    "投稿への反応（いいね等）の徹底分析",
-                    "海外の最新SNS流行事例の収集",
-                    "流行りのデザインの言語化"
-                ],
-                prompts: [
-                    "[業界]におけるInstagramの流行を調査し、「今伸びている投稿の特徴」をデザイン・文章・ハッシュタグの視点から表形式でレポートしてください。",
-                    "以下のURLのライバルアカウントを分析し、彼らの強みと弱み、および自社が狙うべきチャンスを「強み・弱み分析（SWOT分析）」の形式でまとめて。\n[URL]"
-                ]
-            },
-            notebooklm: {
-                scenes: [
-                    "複数アカウントのデータ統合分析",
-                    "自社らしい雰囲気（トンマナ）の学習",
-                    "過去の全問い合わせ履歴からのQ&A作成",
-                    "社内SNSルールの作成支援",
-                    "キャンペーン企画書の自動下書き"
-                ],
-                prompts: [
-                    "アップロードした複数のデータ（CSV/PDF）をまとめて分析し、反応率（エンゲージメント）が最も高くなる「投稿時間帯」と「投稿タイプ」の関係を教えて。",
-                    "過去の成功したキャンペーン資料を元に、次回のキャンペーン企画書の骨子を作成してください。目的は[新規フォロワー獲得]です。"
-                ]
-            },
-            nanobanana: {
-                scenes: [
-                    "シリーズ投稿の統一デザインルール作成",
-                    "クリックしたくなる文字配置案",
-                    "データのグラフ化・図解",
-                    "季節別キャンペーン画像の展開案",
-                    "動画の表紙画像（サムネイル）比較案"
-                ],
-                prompts: [
-                    "Instagramのスワイプして読む投稿（カルーセル）の1枚目〜10枚目の構成案と、各ページのデザイン下書き（配置・配色）を具体的に指示してください。テーマは[テーマ]。",
-                    "クリックしたくなる心理学的な色の組み合わせに基づいて、[商品]の広告バナーの色使いを3パターン提案してください。"
-                ]
-            }
-        },
-        marketing: {
-            gpt: {
-                scenes: [
-                    "買いたくなる構成（AIDA）の商品ページ案",
-                    "理想のお客様像（ペルソナ）の詳細設定",
-                    "お客様の声からの本音（インサイト）分析",
-                    "段階的に送るメール（ステップメール）の設計",
-                    "プレスリリース（報道用資料）の自動作成"
-                ],
-                prompts: [
-                    "役割：Web集客のプロ\n手法：買いたくなる心理ステップ（AIDAの法則）\n商材：[商材名]\n\n読者の注意を引き、興味を持たせ、欲しくさせ、行動させるための商品紹介ページ（LP）の構成案を作成してください。",
-                    "商材[商材]を購入する典型的な「理想のお客様像（ペルソナ）」を定義してください。名前、年齢、職業だけでなく、抱えている悩み、休日の過ごし方、よく見るWebサイトまで詳細に設定してください。"
-                ]
-            },
-            gemini: {
-                scenes: [
-                    "自社・ライバル・顧客の分析（3C分析）",
-                    "世の中の動き分析（PEST分析）",
-                    "具体的で競合が少ない検索ワード調査",
-                    "海外の進んだマーケティング事例収集",
-                    "業界地図（カオスマップ）の作成支援"
-                ],
-                prompts: [
-                    "[業界]において、政治、経済、社会、技術の4つの視点から分析（PEST分析）を行い、今後3年間の市場予測を立ててください。",
-                    "[ターゲットキーワード]に関連する検索ワードの中で、検索数は少ないけれど購入につながりやすそうな「ニッチなキーワード（ロングテール）」を20個リストアップしてください。"
-                ]
-            },
-            notebooklm: {
-                scenes: [
-                    "大量のお客様レビューの感情分析",
-                    "業界レポートの要約と自社への影響",
-                    "営業トークの練習相手",
-                    "過去の提案書の知識データベース化",
-                    "専門書籍の内容に基づいた作戦立案"
-                ],
-                prompts: [
-                    "アップロードした業界レポート（PDF）の内容に基づき、当社のような中小企業が直面するであろう「2024年問題」とその対策を具体的に3つ提案してください。",
-                    "お客様レビューファイルを分析し、お客様が「感動したポイント」と「ガッカリしたポイント」を点数付きで分類してください。"
-                ]
-            },
-            nanobanana: {
-                scenes: [
-                    "情報をわかりやすく図にする（インフォグラフィック）",
-                    "購入までの道のり図（カスタマージャーニー）",
-                    "お役立ち資料（ホワイトペーパー）のデザイン",
-                    "展示会パネルの配置案",
-                    "サービス紹介動画の絵コンテ"
-                ],
-                prompts: [
-                    "複雑な[サービスの流れ]を、パッと見て理解できる図解（インフォグラフィック）にするための構成案を作成して。矢印やアイコンの使い方も指定してください。",
-                    "ターゲット顧客が商品を知ってから購入に至るまでの道のり（カスタマージャーニー）を図にするための、段階ごとの配置要素とイラストイメージを記述して。"
-                ]
-            }
-        },
-        default: { // Pro Default
-            gpt: {
-                scenes: ["クレーム対応メールの丁寧な代筆", "契約書の簡易チェック", "複雑なプロジェクトのスケジュール表作成", "スピーチ原稿の作成", "論理的な思考の壁打ち相手"],
-                prompts: ["役割：法務アシスタント\n以下の契約書案について、自社（受注側）にとって不利になる可能性があるリスクを指摘し、修正案を提示してください。\n[条文]", "役割：プロジェクト管理支援\n[プロジェクト名]を成功させるための詳細な作業スケジュール表（WBS）を、段階ごとに作業レベルまで落とし込んで作成してください。期間は3ヶ月です。"]
-            },
-            gemini: {
-                scenes: ["最新の法律改正情報の調査", "技術選びのための比較表作成", "助成金・補助金の検索", "海外ニュースの翻訳要約", "統計データの検索とグラフ化"],
-                prompts: ["[キーワード]に関連する、現在日本国内で募集中の補助金・助成金を検索し、対象企業・補助額・締切を表形式でまとめてください。", "[技術A]と[技術B]について、導入費用・学習の手間・将来性の視点から比較表を作成し、中小企業におすすめなのはどちらか結論を出してください。"]
-            },
-            notebooklm: {
-                scenes: ["社内ルールの自動回答ボット化", "新人研修カリキュラムの作成", "技術マニュアルの翻訳と学習", "会議録音からの要点抜き出し", "プロジェクト履歴の保存"],
-                prompts: ["アップロードした社内ルールに基づき、従業員からよくある質問（交通費申請、慶弔休暇など）に対する回答マニュアルを作成してください。", "この技術説明書の内容を元に、新入社員向けの理解度確認テスト（全10問、解説付き）を作成してください。"]
-            },
-            nanobanana: {
-                scenes: ["採用資料のデザイン案", "組織図・業務フロー図の作成", "オフィスの配置シミュレーション", "ロゴデザインのアイデア出し", "記念品のデザイン案"],
-                prompts: ["採用説明会資料の表紙デザイン案を3つ作成してください。「革新的」「アットホーム」「成長」の3つのキーワードをそれぞれ表現したデザイン指示を出してください。", "現在の業務フロー（テキスト）を元に、無駄を省いた新しい業務フロー図のレイアウト案を作成してください。"]
-            }
-        }
-    };
-
-    // Helper Functions
-    function getScenarioKey(purposes) {
-        if (purposes.includes('sns')) return 'sns';
-        if (purposes.includes('marketing')) return 'marketing';
-        if (purposes.includes('manual')) return 'default'; // In Pro, map manual to default (high quality)
-        if (purposes.includes('meeting')) return 'meeting'; // In Pro, meeting maps to default or specific if added later
-        if (purposes.includes('ideation')) return 'marketing';
-        if (purposes.includes('internal_doc')) return 'default';
-        return 'default';
-    }
-
-    // --- Utility: Toast Notification ---
-    function showToast(message) {
-        const toast = document.getElementById("toast");
-        toast.textContent = message;
-        toast.className = "toast show";
-        setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
-    }
-
-    // --- Main Functions ---
-
-    function toggleProMode() {
-        isProMode = !isProMode;
-        const body = document.body;
-        const btn = document.getElementById('proToggleBtn');
-        const badge = document.querySelector('.pro-badge');
-
-        if (isProMode) {
-            body.classList.add('pro-mode');
-            btn.innerHTML = '<span>↩️</span> 無料版に戻す';
-            showToast('Proモードに切り替えました！より高度な提案が可能です');
-        } else {
-            body.classList.remove('pro-mode');
-            btn.innerHTML = '<span>✨</span> Pro版を試す（無料デモ）';
-            showToast('無料版に戻りました');
-        }
-        
-        // If results exist, refresh them
-        const resultZone = document.getElementById('resultZone');
-        if (!resultZone.querySelector('.placeholder-message')) {
-            diagnose(); // Re-run diagnosis with new mode
-        }
-    }
-
-    function diagnose() {
-        const resultZone = document.getElementById('resultZone');
-        
-        // 1. Get Inputs
-        const level = document.querySelector('input[name="level"]:checked').value;
-        const purposeEls = document.querySelectorAll('input[name="purpose"]:checked');
-        const purposes = Array.from(purposeEls).map(el => el.value);
-        const hasGoogle = document.getElementById('env_google').checked;
-
-        // 2. Determine Logic & Data Source
-        const scenarioKey = getScenarioKey(purposes);
-        // Select Data based on Mode
-        const dataSource = isProMode ? proScenarios : scenarios;
-        const currentData = dataSource[scenarioKey] || dataSource['default'];
-
-        // 3. Build HTML
-        let html = '';
-        
-        // Header for Results
-        html += `<div class="result-header fade-in" style="margin-bottom:15px;">
-                    <h2 style="font-size:1.2rem; color:var(--text-sub);">診断結果 ${isProMode ? '<span class="tag">PRO</span>' : ''}</h2>
-                    <button class="print-btn" onclick="window.print()">
-                        <span>🖨️</span> PDF保存/印刷
-                    </button>
-                 </div>`;
-
-        // --- A) Google Account Warning ---
-        if (!hasGoogle) {
-            html += `
-            <div class="card warning fade-in">
-                <div class="card-header">
-                    <div class="card-title">⚠️ 最初にやること：Google環境の準備</div>
-                </div>
-                <div class="card-body">
-                    <p style="margin-bottom:10px;">AIツールの多く（Gemini, NotebookLMなど）はGoogleアカウントが必要です。</p>
-                    <ul class="step-list">
-                        <li>Googleアカウント作成ページへアクセス</li>
-                        <li>「自分用」または「ビジネス管理用」を選択</li>
-                        <li>電話番号認証をして完了（所要時間：3分）</li>
-                    </ul>
-                </div>
-            </div>`;
-        }
-
-        // --- B) Recommended Route ---
-        let routeSteps = [];
-        routeSteps.push('<span class="route-step">1. 環境整備</span>');
-        
-        if (purposes.includes('sns')) {
-            routeSteps.push('<span class="route-arrow">→</span><span class="route-step">2. Geminiでトレンド調査</span>');
-            routeSteps.push('<span class="route-arrow">→</span><span class="route-step">3. GPTで投稿文作成</span>');
-            routeSteps.push('<span class="route-arrow">→</span><span class="route-step">4. Nanobananaで画像化</span>');
-        } else if (purposes.includes('marketing')) {
-            routeSteps.push('<span class="route-arrow">→</span><span class="route-step">2. Geminiで調査</span>');
-            routeSteps.push('<span class="route-arrow">→</span><span class="route-step">3. GPTで文章化</span>');
-            routeSteps.push('<span class="route-arrow">→</span><span class="route-step">4. Nanobananaでチラシ化</span>');
-        } else {
-            routeSteps.push('<span class="route-arrow">→</span><span class="route-step">2. Geminiで情報収集</span>');
-            routeSteps.push('<span class="route-arrow">→</span><span class="route-step">3. GPTでタスク処理</span>');
-            routeSteps.push('<span class="route-arrow">→</span><span class="route-step">4. NotebookLMで整理</span>');
-        }
-
-        html += `
-        <div class="card fade-in">
-            <div class="card-header">
-                <div class="card-title">🚀 今日のおすすめルート</div>
-            </div>
-            <div class="card-body">
-                <div class="route-flow">
-                    ${routeSteps.join('')}
-                </div>
-            </div>
-        </div>`;
-
-        // --- C) Tool Cards ---
-        const tools = ['gpt', 'gemini', 'notebooklm', 'nanobanana'];
-        
-        tools.forEach(toolKey => {
-            const info = toolsInfo[toolKey];
-            // Pro data might fallback to default if key missing in specific scenario
-            let data = currentData[toolKey];
-            if (!data && isProMode) data = proScenarios['default'][toolKey];
-            if (!data) data = scenarios['default'][toolKey];
-
-            // Generate Prompt Inputs
-            const promptInputs = data.prompts.map((p, idx) => `
-                <div class="prompt-box">
-                    <span class="prompt-label">プロンプト案 ${idx + 1} ${isProMode ? '(詳細版)' : ''}</span>
-                    <textarea class="prompt-text" readonly>${p}</textarea>
-                </div>
-            `).join('');
-
-            // Generate Scenes
-            const sceneList = data.scenes.map(s => `<li>${s}</li>`).join('');
-
-            html += `
-            <div class="card fade-in" id="card-${toolKey}">
-                <div class="card-header">
-                    <div class="card-title">${info.name} <span class="tag">${info.role}</span></div>
-                    <button class="copy-card-btn" onclick="copyCard('card-${toolKey}')">このカードをコピー</button>
-                </div>
-                <div class="card-body">
-                    <h3>向いているシーン</h3>
-                    <ul class="scene-list">
-                        ${sceneList}
-                    </ul>
-                    <h3>コピペ用プロンプト</h3>
-                    ${promptInputs}
-                </div>
-            </div>`;
-        });
-
-        // --- Bottom Area ---
-        html += `
-        <div class="card fade-in" id="consult-memo">
-            <div class="card-header">
-                <div class="card-title">📝 コンサル用メモ・宿題</div>
-            </div>
-            <div class="card-body homework-section">
-                <div>
-                    <label class="form-label">コンサルタントメモ</label>
-                    <textarea class="homework-input" rows="3" placeholder="ヒアリング内容や特記事項..."></textarea>
-                </div>
-                <div>
-                    <label class="form-label">次回の宿題</label>
-                    <textarea class="homework-input" rows="2" placeholder="例：Googleアカウントを作成しておく"></textarea>
-                </div>
-            </div>
-        </div>
-        `;
-
-        resultZone.innerHTML = html;
-        
-        // Scroll logic (mobile only)
-        if(window.innerWidth < 768) {
-             resultZone.scrollIntoView({ behavior: 'smooth' });
-        }
-    }
-
-    function resetApp() {
-        document.querySelectorAll('input').forEach(input => {
-            if(input.type === 'radio' || input.type === 'checkbox') {
-                if(input.name === 'level' && input.value === 'beginner') input.checked = true;
-                else if(input.name === 'device' && input.value === 'pc') input.checked = true;
-                else input.checked = false;
-            }
-        });
-        
-        document.getElementById('resultZone').innerHTML = `
-            <div class="placeholder-message">
-                左側の項目を入力して<br>「診断して提案を見る」を押してください。
-            </div>
-        `;
-
-        // If in Pro mode, maybe keep it? Or reset? Let's keep mode but reset form.
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        showToast('入力内容をリセットしました');
-    }
-
-    // --- Copy Functions ---
-
-    function copyToClipboard(text) {
-        if (navigator.clipboard && window.isSecureContext) {
-            navigator.clipboard.writeText(text).then(() => {
-                showToast('コピーしました！');
-            }, (err) => {
-                fallbackCopy(text);
-            });
-        } else {
-            fallbackCopy(text);
-        }
-    }
-
-    function fallbackCopy(text) {
-        const textArea = document.createElement("textarea");
-        textArea.value = text;
-        textArea.style.position = "fixed";
-        textArea.style.left = "-9999px";
-        document.body.appendChild(textArea);
-        textArea.focus();
-        textArea.select();
-        try {
-            document.execCommand('copy');
-            showToast('コピーしました！');
-        } catch (err) {
-            showToast('コピーに失敗しました');
-        }
-        document.body.removeChild(textArea);
-    }
-
-    function copyCard(cardId) {
-        const card = document.getElementById(cardId);
-        if (!card) return;
-        
-        const title = card.querySelector('.card-title').innerText.replace('このカードをコピー', '').trim();
-        const scenes = Array.from(card.querySelectorAll('.scene-list li')).map(li => `・${li.innerText}`).join('\n');
-        const prompts = Array.from(card.querySelectorAll('.prompt-text')).map((t, i) => `[プロンプト${i+1}]\n${t.value}`).join('\n\n');
-
-        const text = `【ツール：${title}】${isProMode ? ' [PRO]' : ''}\n\n■向いているシーン\n${scenes}\n\n■おすすめプロンプト\n${prompts}`;
-        copyToClipboard(text);
-    }
-
-    function copyAllResults() {
-        const resultZone = document.getElementById('resultZone');
-        if (!resultZone.querySelector('.card')) {
-            showToast('まだ診断結果がありません');
-            return;
-        }
-
-        let fullText = `【AI導入スタートガイド 診断結果${isProMode ? ' - PRO' : ''}】\n\n`;
-
-        // Route
-        const route = resultZone.querySelector('.route-flow')?.innerText.replace(/\n/g, ' ');
-        if (route) fullText += `■今日のおすすめルート\n${route}\n\n-------------------\n\n`;
-
-        // Tools
-        const cards = resultZone.querySelectorAll('[id^="card-"]');
-        cards.forEach(card => {
-            const title = card.querySelector('.card-title').innerText.replace('このカードをコピー', '').trim();
-            const scenes = Array.from(card.querySelectorAll('.scene-list li')).map(li => `・${li.innerText}`).join('\n');
-            const prompts = Array.from(card.querySelectorAll('.prompt-text')).map((t, i) => `[プロンプト${i+1}]\n${t.value}`).join('\n\n');
+        <!-- 1. ファーストビュー -->
+        <section class="py-16 md:py-24 text-center">
+            <p class="text-slate-500 mb-4 text-sm md:text-base">AI導入、何から始めるかを5分で決める</p>
+            <h1 class="text-4xl md:text-5xl lg:text-6xl leading-tight mb-8 text-teal-800">
+                考えるを、<br class="md:hidden">ひとりにしない。
+            </h1>
+            <p class="mb-10 text-slate-600 max-w-xl mx-auto">
+                ChatGPTだけで止まっていませんか？<br>
+                Gemini、NotebookLM、資料AI…<br>
+                気になるけど触れていない方へ。
+            </p>
             
-            fullText += `【${title}】\n${scenes}\n\n${prompts}\n\n-------------------\n\n`;
-        });
+            <a href="https://spc-jp.github.io/ai-started-guide-apl/" target="_blank" rel="noopener noreferrer" class="btn-cta px-10 py-4 text-lg md:text-xl w-full md:w-auto min-w-[280px] inline-block text-center">
+                今すぐ無料ではじめる
+            </a>
+            
+            <p class="mt-4 text-xs text-slate-400">
+                登録不要 ／ インストール不要 ／ ブラウザで完結
+            </p>
+        </section>
 
-        // Homework
-        const memo = document.querySelectorAll('.homework-input');
-        if (memo.length > 0) {
-            fullText += `■コンサルタントメモ\n${memo[0].value}\n\n`;
-            fullText += `■次回の宿題\n${memo[1].value}\n`;
+        <!-- 2. 共感（悩み） -->
+        <section class="py-16 md:py-20">
+            <div class="glass-card p-8 md:p-12">
+                <div class="text-center mb-10">
+                    <h2 class="text-2xl md:text-3xl mb-2 text-teal-700">こんなお悩みありませんか？</h2>
+                </div>
+                
+                <ul class="space-y-4 text-base md:text-lg text-slate-600 max-w-2xl mx-auto mb-10 pl-2">
+                    <li class="flex items-start">
+                        <span class="mr-3 text-teal-400">・</span>
+                        AIが気になるけど何から始めればいいかわからない
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3 text-teal-400">・</span>
+                        ChatGPTしか使っていない
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3 text-teal-400">・</span>
+                        調べ物や資料作成で時間が溶ける
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3 text-teal-400">・</span>
+                        SNSや議事録がバラバラ
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3 text-teal-400">・</span>
+                        一人で抱えてしまう
+                    </li>
+                </ul>
+
+                <p class="text-center text-teal-800 bg-white/40 py-6 rounded-xl">
+                    それはあなたのせいではありません。<br class="md:hidden">
+                    必要なのは「順番」と「役割」だけです🙂
+                </p>
+            </div>
+        </section>
+
+        <!-- 3. できること（3ステップ） -->
+        <section class="py-16">
+            <h2 class="text-2xl md:text-3xl text-center mb-12 text-teal-700">AIスタートガイドでできること</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Step 1 -->
+                <div class="glass-card p-6 flex flex-col items-center text-center h-full group hover:bg-white/50 transition-colors">
+                    <div class="text-teal-300 text-5xl mb-2 opacity-30 font-light">01</div>
+                    <h3 class="text-xl mb-4 text-teal-800">今のレベルと<br>目的を選ぶ</h3>
+                    
+                    <!-- SVG Illustration: Survey/Choice -->
+                    <div class="w-full h-32 mb-4 flex items-center justify-center">
+                        <svg class="w-24 h-24 text-teal-600 opacity-80" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <!-- Paper -->
+                            <rect x="20" y="15" width="60" height="70" rx="4" class="fill-white/40" stroke="currentColor"></rect>
+                            <!-- Lines -->
+                            <path d="M30 30h40" class="text-teal-400"></path>
+                            <path d="M30 40h20" class="text-teal-400"></path>
+                            <!-- Checkboxes -->
+                            <circle cx="35" cy="55" r="3" class="fill-teal-200 text-teal-500"></circle>
+                            <path d="M45 55h25" class="text-slate-400"></path>
+                            <circle cx="35" cy="70" r="3" class="text-teal-300"></circle>
+                            <path d="M45 70h25" class="text-slate-400"></path>
+                        </svg>
+                    </div>
+                    
+                    <p class="text-sm text-slate-500">簡単な質問に答えるだけ。</p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="glass-card p-6 flex flex-col items-center text-center h-full group hover:bg-white/50 transition-colors">
+                    <div class="text-teal-300 text-5xl mb-2 opacity-30 font-light">02</div>
+                    <h3 class="text-xl mb-4 text-teal-800">今日の<br>おすすめルートが出る</h3>
+                    
+                    <!-- SVG Illustration: Route/Map -->
+                    <div class="w-full h-32 mb-4 flex items-center justify-center">
+                        <svg class="w-24 h-24 text-teal-600 opacity-80" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <!-- Start Point -->
+                            <circle cx="20" cy="70" r="4" class="fill-teal-200"></circle>
+                            <!-- Goal Point -->
+                            <path d="M80 30l-5-5l5-5l5 5z" fill="currentColor" class="text-teal-500"></path>
+                            <path d="M80 30v10"></path>
+                            <!-- Path -->
+                            <path d="M24 70c15 0 15-30 35-30s20-10 20-10" stroke-dasharray="4 4" class="text-teal-400"></path>
+                            <!-- Arrow head -->
+                            <path d="M75 28l5 2" class="text-teal-400"></path>
+                        </svg>
+                    </div>
+
+                    <p class="text-sm text-slate-500">あなたに最適な道筋を提示。</p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="glass-card p-6 flex flex-col items-center text-center h-full group hover:bg-white/50 transition-colors">
+                    <div class="text-teal-300 text-5xl mb-2 opacity-30 font-light">03</div>
+                    <h3 class="text-xl mb-4 text-teal-800">そのまま使える<br>プロンプトで開始</h3>
+                    
+                    <!-- SVG Illustration: Prompt Card -->
+                    <div class="w-full h-32 mb-4 flex items-center justify-center">
+                        <svg class="w-24 h-24 text-teal-600 opacity-80" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <!-- Card Background -->
+                            <rect x="15" y="25" width="70" height="50" rx="6" class="fill-white/40" stroke="currentColor"></rect>
+                            <!-- Text Lines -->
+                            <path d="M25 40h50" class="text-teal-400"></path>
+                            <path d="M25 50h30" class="text-teal-400"></path>
+                            <path d="M25 60h40" class="text-teal-400"></path>
+                            <!-- Copy Button -->
+                            <rect x="65" y="60" width="12" height="8" rx="2" class="fill-teal-500 text-teal-500"></rect>
+                        </svg>
+                    </div>
+
+                    <p class="text-sm text-slate-500">コピペですぐに実践できます。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. 役割分担（4つのAI） -->
+        <section class="py-16">
+            <div class="text-center mb-12">
+                <h2 class="text-2xl md:text-3xl text-teal-700 mb-4">AIを役割で使うと、迷いが減ります</h2>
+                <p class="text-slate-500">適材適所を知ることが、時短への近道です。</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <!-- ChatGPT -->
+                <div class="glass-card p-6 hover:bg-white/40 transition-colors">
+                    <h3 class="text-lg text-teal-800 mb-2">ChatGPT</h3>
+                    <p class="text-xs text-slate-400 mb-4 tracking-widest">SECRETARY</p>
+                    <p class="text-xl mb-3">秘書・文章</p>
+                    <p class="text-sm text-slate-600 bg-white/50 p-3 rounded-lg">
+                        「このメールの返信案を3パターン作って」
+                    </p>
+                </div>
+
+                <!-- Gemini -->
+                <div class="glass-card p-6 hover:bg-white/40 transition-colors">
+                    <h3 class="text-lg text-teal-800 mb-2">Gemini</h3>
+                    <p class="text-xs text-slate-400 mb-4 tracking-widest">RESEARCHER</p>
+                    <p class="text-xl mb-3">調査・リサーチ</p>
+                    <p class="text-sm text-slate-600 bg-white/50 p-3 rounded-lg">
+                        「最新のAI動向をWebから調べて要約して」
+                    </p>
+                </div>
+
+                <!-- NotebookLM -->
+                <div class="glass-card p-6 hover:bg-white/40 transition-colors">
+                    <h3 class="text-lg text-teal-800 mb-2">NotebookLM</h3>
+                    <p class="text-xs text-slate-400 mb-4 tracking-widest">LIBRARIAN</p>
+                    <p class="text-xl mb-3">図書館・整理</p>
+                    <p class="text-sm text-slate-600 bg-white/50 p-3 rounded-lg">
+                        「大量のPDF資料から、重要な点だけ教えて」
+                    </p>
+                </div>
+
+                <!-- Nanobanana -->
+                <div class="glass-card p-6 hover:bg-white/40 transition-colors">
+                    <h3 class="text-lg text-teal-800 mb-2">Nanobanana</h3>
+                    <p class="text-xs text-slate-400 mb-4 tracking-widest">CREATOR</p>
+                    <p class="text-xl mb-3">資料・チラシ</p>
+                    <p class="text-sm text-slate-600 bg-white/50 p-3 rounded-lg">
+                        「イベント告知用の画像とレイアウトを作って」
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. 無料版とPro版 -->
+        <section class="py-16">
+            <h2 class="text-2xl md:text-3xl text-center mb-12 text-teal-700">無料で試して、必要ならProへ</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                <!-- Free Plan -->
+                <div class="glass-card p-8 border-t-4 border-slate-300">
+                    <h3 class="text-xl text-slate-600 mb-6 text-center">無料版</h3>
+                    <ul class="space-y-4 text-slate-600 mb-8">
+                        <li class="flex items-center"><span class="text-teal-400 mr-2">・</span> 基本診断</li>
+                        <li class="flex items-center"><span class="text-teal-400 mr-2">・</span> 今日のおすすめルート</li>
+                        <li class="flex items-center"><span class="text-teal-400 mr-2">・</span> シンプルプロンプト</li>
+                    </ul>
+                </div>
+
+                <!-- Pro Plan -->
+                <div class="glass-card p-8 border-t-4 border-teal-400 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-teal-400 text-white text-xs px-3 py-1 rounded-bl-lg">おすすめ</div>
+                    <h3 class="text-xl text-teal-700 mb-6 text-center">Pro版 <span class="text-sm font-normal ml-2">（無料デモ）</span></h3>
+                    <ul class="space-y-4 text-slate-600 mb-8">
+                        <li class="flex items-center"><span class="text-teal-400 mr-2">・</span> 実務レベル詳細プロンプト</li>
+                        <li class="flex items-center"><span class="text-teal-400 mr-2">・</span> SNS / マーケ / 議事録対応</li>
+                        <li class="flex items-center"><span class="text-teal-400 mr-2">・</span> PDF保存、コンサル用メモ</li>
+                        <li class="flex items-center"><span class="text-teal-400 mr-2">・</span> 次回への宿題機能</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. デモ/体験セクション (ID: demo) -->
+        <section id="demo" class="py-20 bg-white/30 -mx-4 md:-mx-6 px-4 md:px-6 my-10 backdrop-blur-sm">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-10">
+                    <span class="inline-block py-1 px-3 border border-teal-500 text-teal-600 rounded-full text-sm mb-4">体験エリア</span>
+                    <h2 class="text-2xl md:text-3xl text-teal-800 mb-2">診断デモを試してみる</h2>
+                    <p class="text-slate-500">実際の流れをイメージしてみましょう</p>
+                </div>
+
+                <!-- デモUI -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- UI 1 -->
+                    <div class="glass-card p-4 bg-white/60">
+                        <div class="h-6 w-24 bg-teal-100 rounded mb-4"></div>
+                        <p class="text-sm text-slate-600 mb-4">Q. あなたの今の課題は？</p>
+                        <div class="space-y-2">
+                            <div class="h-10 w-full border border-teal-200 rounded flex items-center px-3 text-sm text-slate-400">時間が足りない</div>
+                            <div class="h-10 w-full border border-teal-200 rounded flex items-center px-3 text-sm text-slate-400">アイデアが出ない</div>
+                        </div>
+                        <p class="text-center text-xs text-teal-600 mt-4">診断画面</p>
+                    </div>
+
+                    <!-- UI 2 -->
+                    <div class="glass-card p-4 bg-white/60">
+                        <div class="h-6 w-32 bg-teal-100 rounded mb-4"></div>
+                        <p class="text-sm text-slate-600 mb-4">あなたへのおすすめ</p>
+                        <div class="p-3 bg-teal-50 rounded border border-teal-100 mb-2">
+                            <div class="text-xs text-teal-600 mb-1">STEP 1</div>
+                            <div class="text-sm">ChatGPTで<br>メール返信を作る</div>
+                        </div>
+                        <p class="text-center text-xs text-teal-600 mt-4">ルート提案</p>
+                    </div>
+
+                    <!-- UI 3 -->
+                    <div class="glass-card p-4 bg-white/60">
+                        <div class="h-6 w-24 bg-teal-100 rounded mb-4"></div>
+                        <p class="text-sm text-slate-600 mb-4">コピーして使う</p>
+                        <div class="p-3 bg-slate-50 rounded border border-slate-200 text-xs text-slate-500 font-mono leading-relaxed">
+                            「以下のメールに対して、丁寧に断る返信文を書いてください...」
+                        </div>
+                        <div class="mt-2 h-8 w-full bg-teal-500 rounded text-white text-xs flex items-center justify-center">コピー</div>
+                        <p class="text-center text-xs text-teal-600 mt-2">プロンプト</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. 開発者メッセージ -->
+        <section class="py-16">
+            <div class="glass-card p-8 md:p-12 text-center md:text-left">
+                <h2 class="text-2xl mb-6 text-teal-700">このアプリを作った理由</h2>
+                <div class="space-y-6 text-slate-600 leading-loose">
+                    <p>
+                        AIは答えをくれるけど、整理はしてくれません。<br>
+                        情報が多すぎて、結局何もしないまま一日が終わる。<br>
+                        そんな経営者の方をたくさん見てきました。
+                    </p>
+                    <p>
+                        だから、「考えるを、ひとりにしない」という形で、<br>
+                        AIをただの道具ではなく、あなたの相棒にするためのガイドを作りました。
+                    </p>
+                    <p>
+                        これは便利なツール集ではありません。<br>
+                        あなたにとっての最初の一歩を、一緒に決めるナビです。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. 最終CTA -->
+        <section class="py-20 text-center">
+            <h2 class="text-2xl md:text-3xl mb-8 text-teal-800">まずは5分で、<br>方向を決めましょう</h2>
+            
+            <a href="https://spc-jp.github.io/ai-started-guide-apl/" target="_blank" rel="noopener noreferrer" class="btn-cta px-12 py-5 text-xl w-full md:w-auto min-w-[300px] mb-6 inline-block text-center">
+                今すぐ無料ではじめる
+            </a>
+            
+            <p class="text-slate-500 text-sm">
+                次の一歩が軽くなるはずです🙂
+            </p>
+        </section>
+
+    </main>
+
+    <footer class="text-center py-8 text-slate-400 text-sm">
+        <p>&copy; 2024 AI Start Guide. All rights reserved.</p>
+    </footer>
+
+    <!-- スクリプト -->
+    <script>
+        // スムーズスクロール機能（他のリンクで使う場合に備えて残しています）
+        function scrollToDemo() {
+            const demoSection = document.getElementById('demo');
+            if (demoSection) {
+                demoSection.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
         }
-
-        copyToClipboard(fullText);
-    }
-</script>
-
+    </script>
 </body>
 </html>
